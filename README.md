@@ -6,4 +6,8 @@ vagrat up
 vagrat up --provision -> quando rodar a primeira vez
 vagrant ssh
 
+## ANSIBLE LAB
+sudo apt-get install nfs-common nfs-kernel-server
+
 atualizar o Vagrantfile
+vagrant global-status --prune
