@@ -8,6 +8,22 @@ vagrant ssh
 
 ## ANSIBLE LAB
 sudo apt-get install nfs-common nfs-kernel-server
+sudo apt install nfs-kernel-server
+systemctl status nfs-kernel-server
+dpkg -l | grep nfs-kernel-server
 
+vagrant ssh
+cat /etc/hosts
+sudo vi /etc/ansible/hosts -> control node
+ssh-keygen
+cd ~/.ssh
+vagrant reload --provision - app e dbdb01/app01
+ssh vagrant@
+
+## VARIOS
 atualizar o Vagrantfile
 vagrant global-status --prune
+sudo apt-get install nfs-common nfs-kernel-server
+vagrant plugin install vagrant-winnfsd
+vagrant plugin install  vagrant-nfs_guest
+vagrant plugin install vagrant-omnibus

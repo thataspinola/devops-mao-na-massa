@@ -1,0 +1,1 @@
+{"dependencies":[["vagrant-omnibus",["= 1.5.0"]]],"checksum":"bb1ad4f6070c5d5d77be1cf67b1e1f996ee503b8b173eff15939adfaaccefe55","vagrant_version":"2.4.1"}
