@@ -1,0 +1,13 @@
+[Unit]
+Description=notes
+After=network.target
+
+
+[Service]
+User=app
+WorkingDirectory=/opt/notes
+ExecStart=/usr/bin/java -jar
+SyslogIdentifier=notes-%i
+
+[Install]
+WantedBy=multi-user.target
