@@ -5,5 +5,5 @@ sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo
 sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
 
 cat << EOT >> /home/vagrant/.ssh/authorized_keys
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtlid282vuEDXCcOCxdWQRorAzE3vPdN9ywk39I54WOFp0NbKKHmTnjs+yzksJGW6YrHfSK2r2OfdGdWZHGiHreONgoAI6yyaQRkASUz+9KlBxCOkJGtachNQRogkBhTLzMljLc9ZPvzI+wtUa2Bun8OuF+bihmAebmac9U1yGj+0EkroDenDh6wlLuC6u58NyupwEsdp/ZCpLhleicwmsAgXy1TtbRmJyPcy7pWESLa3CEpKfgq1z3RqTsuFhtAThoQ/cqA5FHWD3LywCDTpJABo0VLZX/+gKWYN0gxNs2ZO0GRbl5M8N/Ye/TLXKygT8sj4PKU86Bs4PdyDEXZXv vagrant@control-node
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCiLjh2H9lusTLpqnl91ZqANos9V/s9xYXb70n1U9AKBz6VJ0PXoCocqbKfqZXEElWDDc0CZJa7eArgv3shxuer8oPoNsD0gr0I56yp2rV/lBzCOYwWq9VB+iHm02/VLyGXNKs9AYbK2sRWZZro2eyfygTGIVmOU5RP1bJOmsfUzWIFPwfPLv4OIa5TZZAd54DjQhK00Rk7Er47rm+NbW0u3gYl1ZXpQP2FsqKyY0qbdXyLUNR+pLuNQXqd4DamZgPmqieGIyRwrniPXh0JO2MIZx3eUq24kDHMBG7nypka/2zLlii9fjC0vc24EaNBeJ/E1PnrqtSrrTp2H58ogjbb vagrant@control-node
 EOT
