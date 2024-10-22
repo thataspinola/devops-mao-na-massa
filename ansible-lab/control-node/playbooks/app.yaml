@@ -3,6 +3,7 @@
   hosts: app01
   user: vagrant
   become: yes
+  become_user: root
   vars:
     - dbhost: "db01"
     - dbname: "notes"
