@@ -87,3 +87,10 @@ docker service create --name demo --publish 80:80 nginx
 docker service ls
 docker service ps demo
 docker service scale demo=3
+
+## SONARQUBE
+ps aux | grep java
+sudo service sonar status
+admin - admin
+redis-app token: 8f2f708fd206b08d47b3bbba18400171d795c8aa
+sonar-scanner   -Dsonar.projectKey=redis-app   -Dsonar.sources=.   -Dsonar.host.url=http://localhost:9000   -Dsonar.login=8f2f708fd206b08d47b3bbba18400171d795c8aa
