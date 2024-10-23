@@ -77,3 +77,13 @@ docker compose down
 docker compose up -d
 
 ## Docker Swarm
+vagrant ssh manager
+sudo docker swarm init --advertise-addr 192.168.56.4
+sudo docker swarm join --token SWMTKN-1-1f46aen6x0rmhx1nefx2zhtfdidy6xnwy02mtukggj5inrxyf0-379fq3obpd2cqie1tcobngcnd 192.168.56.4:2377
+vagrant ssh worker1
+vagrant ssh worker2
+sudo docker node ls
+docker service create --name demo --publish 80:80 nginx
+docker service ls
+docker service ps demo
+docker service scale demo=3
