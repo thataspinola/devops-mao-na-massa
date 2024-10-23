@@ -48,3 +48,32 @@ vagrant plugin install vagrant-omnibusvaul
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+vagrant ssh-config (app01) - pegar o port (2201)
+scp -P 2201 vagrant@127.0.01:/opt/notes/target/easy-notes-1.0.0.jar . (app01)
+vagrant upload de application.properties, easy-notes, pom e os tar.gz
+criar pasta docker-multi-stage > dentro copiar o application.properties e criar o Dockerfile com o conteudo do dockerfilestage
+docker build -t devops/notes . > precisa rodar
+docker run <imagem>
+docker run --name redis-server -d redis
+docker logs -f redis-server
+docker network ls
+docker rm -f redis-server
+docker ps -a
+docker network create devops
+docker run --net devops --name redis-server -d redis
+docker run --net devops -p 8080:8081 -d devops/node-app
+docker run -i -t -v /root/upload-images:/upload-images ubuntu:16.04
+
+## DOCKER COMPOSE
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+cp -r node-app/* docker-compose
+docker system prune
+docker volume prune
+docker network remove devops
+docker compose up
+docker compose down
+docker compose up -d
+
+## Docker Swarm

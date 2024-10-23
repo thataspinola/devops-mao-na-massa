@@ -1,3 +1,13 @@
+# 1 versao do dockerfile
+#FROM openjdk:8-jdk-alpine
+#RUN addgroup -S notes && adduser -S notes -G notes
+#USER notes:notes
+#ARG JAR_FILE=*.jar
+#COPY ${JAR_FILE} easy-note.jar
+#COPY application.properties application.properties
+#ENTRYPOINT ["java","-jar","/opt/note/easy-note.jar"]
+
+# 2 versao do dockerfile
 FROM openjdk:8-jdk-alpine
 RUN addgroup -S notes && adduser -S notes -G notes
 ENV MAVEN_VERSION 3.1.0
