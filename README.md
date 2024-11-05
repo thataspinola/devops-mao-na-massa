@@ -92,5 +92,16 @@ docker service scale demo=3
 ps aux | grep java
 sudo service sonar status
 admin - admin
-redis-app token: 8f2f708fd206b08d47b3bbba18400171d795c8aa
-sonar-scanner   -Dsonar.projectKey=redis-app   -Dsonar.sources=.   -Dsonar.host.url=http://localhost:9000   -Dsonar.login=8f2f708fd206b08d47b3bbba18400171d795c8aa
+redis-app: 94753843c0f1e9e8bec24743fd4a4d050ca10151
+sonar-scanner \
+  -Dsonar.projectKey=redis-app \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=94753843c0f1e9e8bec24743fd4a4d050ca10151
+
+## JENKINS
+ps aux | grep java
+sudo service jenkins start
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+baixar os plugins do git no jenkins e o sonar scanner plugin
+configurar o servidor do sonar e depois o sonar scaner
