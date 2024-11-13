@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/thamis/Área de Trabalho/devops-mao-na-massa/k3-lab","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}

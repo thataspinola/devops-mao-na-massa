@@ -36,14 +36,6 @@ sudo chmod +x /etc/profile.d/maven.sh
 source /etc/profile.d/maven.sh
 
 
-## VARIOS
-atualizar o Vagrantfile
-vagrant global-status --prune
-sudo apt-get install nfs-common nfs-kernel-server
-vagrant plugin install vagrant-winnfsd
-vagrant plugin install  vagrant-nfs_guest
-vagrant plugin install vagrant-omnibusvaul
-
 ## LAB DOCKER
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
@@ -92,12 +84,12 @@ docker service scale demo=3
 ps aux | grep java
 sudo service sonar status
 admin - admin
-redis-app: 94753843c0f1e9e8bec24743fd4a4d050ca10151
+redis-app: sqp_02a99a920b2e02ca69abe6f7024bba04b6698693
 sonar-scanner \
   -Dsonar.projectKey=redis-app \
   -Dsonar.sources=. \
   -Dsonar.host.url=http://localhost:9000 \
-  -Dsonar.login=94753843c0f1e9e8bec24743fd4a4d050ca10151
+  -Dsonar.login=sqp_02a99a920b2e02ca69abe6f7024bba04b6698693
 
 ## JENKINS
 ps aux | grep java
@@ -105,3 +97,47 @@ sudo service jenkins start
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 baixar os plugins do git no jenkins e o sonar scanner plugin
 configurar o servidor do sonar e depois o sonar scaner
+configuraçao sonarqube: nome: sonar-serve / server: 192.168.56.7:9000 / e o secrettext
+colocar o sonar-scanner para nao baixar e colocar o caminho como /opt/sonar-scanner
+docker volume create --name nexus-data
+docker run -d -p 8091:8081 -p 8123:8123 --name nexus -v nexus-data:/nexus-data sonatype/nexus3
+
+## nexus
+docker exec -it nexus bash
+cat /nexus-data/admin.password
+sign no nexus user:admin /senha:1b4920f6-1a70-4390-8c12-773910401f71 -> depois troca a senha do nexus
+criar um novo usuario para o jenkins no nexus
+criar um novo repositorio docker hosted > name docker-repo e http port 8123
+cd /var/lib/jenkins/workspace
+cp -r redis-app /root/
+cd /root/redis-app
+docker build -t devops/app .
+docker login localhost:8123 > usuario jenkins e senha
+docker login -u jenkins -p 123456 localhost:8123 (salva a senha)
+docker tag devops/app:latest localhost:8123/devops/app
+docker push localhost:8123/devops/app
+configurar variaval de ambiente no jenkins > dash > gerir o jenkins > system > enviroment variables > adicionar: name NEXUS_URL valor localhost:8123
+criar credencial global  user e password colocando a credencial do nexus (login jenkins + senha)
+
+## K3
+sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo
+sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo
+sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
+curl -sfL https://get.k3s.io | sh -s - --cluster-init --tls-san 192.168.56.9 --node-ip 192.168.56.9 --node-external-ip 192.168.56.9
+service k3s status
+kubectl get nodes
+yum install git unzip telnet net-tools -y
+vi etc/profile
+alias k=kubectl
+git clone https://github.com/ahmetb/kubectx /opt/kubectx
+ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+yum install bash-completion -y
+echo 'source <(kubectl completion bash | sed s/kubectl/k/g)' >> ~/.bashrc
+cat ~/.bashrc
+kubectl completion bash > /etc/bash_completion.d/kubectl
+echo 'alias k=kubectl' >>~/.bashrc
+echo 'complete -F __start_kubectl k' >> ~/.bashrc
+export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/bin/k3s:$PATH
+kubectl get services

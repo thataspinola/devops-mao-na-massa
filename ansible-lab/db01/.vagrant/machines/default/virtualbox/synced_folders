@@ -1,1 +1,1 @@
-{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/thamis/Área de Trabalho/devops-mao-na-massa-master/ansible-lab/db01","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/thamis/Área de Trabalho/devops-mao-na-massa/ansible-lab/db01","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}

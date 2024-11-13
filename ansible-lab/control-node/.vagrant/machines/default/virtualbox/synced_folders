@@ -1,1 +1,1 @@
-{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/thamis/Área de Trabalho/devops-mao-na-massa-master/ansible-lab/control-node","disabled":false,"rsync__exclude":[".git/"],"__vagrantfile":true,"exclude":[".git/"],"owner":"vagrant","group":"vagrant"}}}
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/thamis/Área de Trabalho/devops-mao-na-massa/ansible-lab/control-node","disabled":false,"rsync__exclude":[".git/"],"__vagrantfile":true,"exclude":[".git/"],"owner":"vagrant","group":"vagrant"}}}
