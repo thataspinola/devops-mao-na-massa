@@ -1,0 +1,9 @@
+mirrors:
+  docker.io:
+    endpoint:
+      - "http://192.168.56.8:8123"
+configs:
+  "192.168.56.8:8123":
+    auth:
+      username: jenkins # this is the registry username
+      password: 123456 # this is the registry password

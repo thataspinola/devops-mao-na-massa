@@ -84,12 +84,12 @@ docker service scale demo=3
 ps aux | grep java
 sudo service sonar status
 admin - admin
-redis-app: sqp_02a99a920b2e02ca69abe6f7024bba04b6698693
+redis-app: sqp_dba794703c7752fdb1e64430590bc74636a4a47e3
 sonar-scanner \
   -Dsonar.projectKey=redis-app \
   -Dsonar.sources=. \
   -Dsonar.host.url=http://localhost:9000 \
-  -Dsonar.login=sqp_02a99a920b2e02ca69abe6f7024bba04b6698693
+  -Dsonar.login=sqp_dba794703c7752fdb1e64430590bc74636a4a47e
 
 ## JENKINS
 ps aux | grep java
@@ -97,15 +97,15 @@ sudo service jenkins start
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 baixar os plugins do git no jenkins e o sonar scanner plugin
 configurar o servidor do sonar e depois o sonar scaner
-configuraçao sonarqube: nome: sonar-serve / server: 192.168.56.7:9000 / e o secrettext
+configuraçao sonarqube: nome: sonar-server / server: 192.168.56.7:9000 / e o secrettext
 colocar o sonar-scanner para nao baixar e colocar o caminho como /opt/sonar-scanner
 docker volume create --name nexus-data
 docker run -d -p 8091:8081 -p 8123:8123 --name nexus -v nexus-data:/nexus-data sonatype/nexus3
 
-## nexus
+## nexus > no jenkins
 docker exec -it nexus bash
 cat /nexus-data/admin.password
-sign no nexus user:admin /senha:1b4920f6-1a70-4390-8c12-773910401f71 -> depois troca a senha do nexus
+sign no nexus user:admin /senha:8a1b5667-d2f8-4c1d-8104-5f7ed0676c47 -> depois troca a senha do nexus
 criar um novo usuario para o jenkins no nexus
 criar um novo repositorio docker hosted > name docker-repo e http port 8123
 cd /var/lib/jenkins/workspace
@@ -118,16 +118,37 @@ docker tag devops/app:latest localhost:8123/devops/app
 docker push localhost:8123/devops/app
 configurar variaval de ambiente no jenkins > dash > gerir o jenkins > system > enviroment variables > adicionar: name NEXUS_URL valor localhost:8123
 criar credencial global  user e password colocando a credencial do nexus (login jenkins + senha)
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+su -s /bin/bash jenkins
+sudo su - jenkins
+usermod -s /bin/bash jenkins
+su -s /bin/bash jenkins
+vi ~/.kube/config > copiar o conteudo do k3s.yaml
+kubectl get po
+kubectl get namespaces
+kubectl delete namespace devops
+kubectl create namespace devops
+na pasta redis-app > git tag -a v1.0.0 -m "Release inicial"
+na pasta redis-app > git push origin v1.0.0
+
 
 ## K3
 sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo
 sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo
 sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
+yum update -y
 curl -sfL https://get.k3s.io | sh -s - --cluster-init --tls-san 192.168.56.9 --node-ip 192.168.56.9 --node-external-ip 192.168.56.9
+sudo cat /var/lib/rancher/k3s/server/node-token
+K10eb5770aa283aa7a9f299e0f3ef585c575440518d43b0655657b51a0d622fc93d::server:e9f4dbb346f917b0f47f544f0c68c5dc
+curl -sfL https://get.k3s.io | K3S_URL=https://192.168.56.9:6443 K3S_TOKEN=K10eb5770aa283aa7a9f299e0f3ef585c575440518d43b0655657b51a0d622fc93d::server:e9f4dbb346f917b0f47f544f0c68c5dc sh -
 service k3s status
 kubectl get nodes
 yum install git unzip telnet net-tools -y
-vi etc/profile
+vi /etc/profile
 alias k=kubectl
 git clone https://github.com/ahmetb/kubectx /opt/kubectx
 ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
@@ -136,8 +157,30 @@ yum install bash-completion -y
 echo 'source <(kubectl completion bash | sed s/kubectl/k/g)' >> ~/.bashrc
 cat ~/.bashrc
 kubectl completion bash > /etc/bash_completion.d/kubectl
+cat /etc/bash_completion.d/kubectl
 echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -F __start_kubectl k' >> ~/.bashrc
 export PATH=/usr/local/bin:$PATH
 export PATH=/usr/local/bin/k3s:$PATH
 kubectl get services
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+kubectl version --client
+cp /etc/rancher/k3s/k3s.yaml ~/.kube/config/k3s.yaml
+kubectl --kubeconfig ~/.kube/config/k3s.yaml get pods --all-namespaces
+vi /etc/rancher/k3s/registries.yaml
+sudo k3s kubectl get node
+service k3s restart
+mkdir redis-app > cd redis-app > vi redis.yaml
+kubectl apply -f redis.yaml
+kubectl get deployment
+kubectl describe deployment redis-server
+kubectl get po
+kubectl get po -o wide
+kubectl describe svc redis-server
+vi redis-app.yaml
+kubectl create namespace devops
+kubens devops
+kubectl apply -f redis-app.yaml
+kubectl get ingress

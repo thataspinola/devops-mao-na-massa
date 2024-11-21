@@ -1,0 +1,12 @@
+Log created: 2024-11-19T19:42:33.926977000Z
+Process ID:  18282 (0x476a)
+Parent PID:  1 (0x1)
+Executable:  /usr/lib/virtualbox/VBoxHeadless
+Arg[0]: /usr/lib/virtualbox/VBoxHeadless
+Arg[1]: --comment
+Arg[2]: sonarqube-lab_default_1731932633479_2527
+Arg[3]: --startvm
+Arg[4]: bd1d1de7-0b45-4471-997c-7b45d1cc7d32
+Arg[5]: --vrde
+Arg[6]: config
+AddRef: illegal refcnt=3221225469 state=2
