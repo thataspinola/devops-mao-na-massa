@@ -184,3 +184,15 @@ kubectl create namespace devops
 kubens devops
 kubectl apply -f redis-app.yaml
 kubectl get ingress
+
+## PROMETHEUS/GRAFANA
+vagrant rsync > sincronizar arquivos
+tar -xvf node_exporter-1.8.2.linux-amd64.tar.gz
+mv node_exporter-1.8.2.linux-amd64 /opt/
+cd /opt/node_exporter-1.8.2.linux-amd64/
+ls -lha
+nohup ./node_exporter &
+tail - nohup.out
+yum install telnet -y
+docker run -d -p 9090:9090 -v /vagrant/prometheus.yaml:/etc/prometheus.yaml prom/prometheus
+docker run -d -p 3000:3000 --name grafana grafana/grafana:latest
